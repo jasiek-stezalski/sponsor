@@ -1,0 +1,38 @@
+package com.task.sponsor.domain;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.time.LocalDate;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@IdClass(CompositeKey.class)
+@Table(name = "SPONSOR_CONTACT")
+public class SponsorContact {
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "SPONSOR_ID")
+    private Sponsor sponsor;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "CONTACT_ID")
+    private Contact contact;
+
+    @Column(name = "BEGIN_DATE")
+    private LocalDate beginDate;
+
+    @Column(name = "END_DATE")
+    private LocalDate endDate;
+}
