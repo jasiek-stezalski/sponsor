@@ -1,9 +1,7 @@
 package com.task.sponsor.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.task.sponsor.domain.Contact;
-import com.task.sponsor.domain.Sponsor;
-import com.task.sponsor.domain.SponsorContact;
+import com.task.sponsor.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -26,6 +25,9 @@ public class SponsorDto {
     private Boolean active;
     private String imageId;
     private String websiteUrl;
+    private Address address;
+    private Set<SocialMediaLink> socialMediaLinks;
+    private Set<ProductCategory> productCategories;
     private List<SponsorContactDto> sponsorContacts;
 
     public SponsorDto(Sponsor sponsor) {
@@ -36,6 +38,9 @@ public class SponsorDto {
         this.active = sponsor.getActive();
         this.imageId = sponsor.getImageId();
         this.websiteUrl = sponsor.getWebsiteUrl();
+        this.address = sponsor.getAddress();
+        this.socialMediaLinks = sponsor.getSocialMediaLinks();
+        this.productCategories = sponsor.getProductCategories();
         this.sponsorContacts = sponsor.getSponsorContacts().stream().map(SponsorContactDto::new).collect(Collectors.toList());
     }
 

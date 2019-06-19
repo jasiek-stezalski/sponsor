@@ -1,4 +1,7 @@
-package com.task.sponsor.domain;
+package com.task.sponsor.common;
+
+import com.task.sponsor.domain.Contact;
+import com.task.sponsor.domain.Sponsor;
 
 import java.io.Serializable;
 

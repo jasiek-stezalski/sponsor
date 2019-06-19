@@ -3,6 +3,7 @@ package com.task.sponsor.service;
 import com.task.sponsor.converter.ContactConverter;
 import com.task.sponsor.domain.Contact;
 import com.task.sponsor.dto.ContactDto;
+import com.task.sponsor.exception.ResourceNotFoundException;
 import com.task.sponsor.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +25,15 @@ public class ContactService {
         return converter.convert(repository.save(contact));
     }
 
-    // todo the same
     public ContactDto update(Contact contact) {
+        repository.findById(contact.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("There is no Sponsor with id: " + contact.getId()));
         return converter.convert(repository.save(contact));
     }
 
-    // todo the same
     public ContactDto findById(Long id) {
-        return repository.findById(id).map(ContactDto::new).get();
+        return converter.convert(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("There is no Contact with id: " + id)));
     }
 
     public List<ContactDto> findAll() {

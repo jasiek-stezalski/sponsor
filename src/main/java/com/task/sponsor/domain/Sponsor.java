@@ -1,12 +1,20 @@
 package com.task.sponsor.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Table;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
 import java.util.List;
 import java.util.Set;
 
@@ -44,10 +52,6 @@ public class Sponsor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "ADDRESS_ID")
-//    private Address sponsorAddressAssigned;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "SPONSOR_ID")

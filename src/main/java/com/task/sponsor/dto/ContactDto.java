@@ -1,10 +1,7 @@
 package com.task.sponsor.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.task.sponsor.domain.Contact;
-import com.task.sponsor.domain.Sponsor;
-import com.task.sponsor.domain.SponsorContact;
+import com.task.sponsor.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -28,6 +26,8 @@ public class ContactDto {
     private String email;
     private LocalDate birthday;
     private String jobTitle;
+    private Address address;
+    private Set<Certificate> certificates;
     private List<SponsorContactDto> sponsorContacts;
 
     public ContactDto(Contact contact) {
@@ -39,6 +39,8 @@ public class ContactDto {
         this.email = contact.getEmail();
         this.birthday = contact.getBirthday();
         this.jobTitle = contact.getJobTitle();
+        this.address = contact.getAddress();
+        this.certificates = contact.getCertificates();
         this.sponsorContacts = contact.getSponsorContacts().stream().map(SponsorContactDto::new).collect(Collectors.toList());
     }
 

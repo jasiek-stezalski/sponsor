@@ -3,6 +3,7 @@ package com.task.sponsor.service;
 import com.task.sponsor.converter.SponsorConverter;
 import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.dto.SponsorDto;
+import com.task.sponsor.exception.ResourceNotFoundException;
 import com.task.sponsor.repository.SponsorRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,25 +26,27 @@ public class SponsorService {
         return converter.convert(repository.save(sponsor));
     }
 
-    //todo add Exception for optional
     public SponsorDto findById(Long id) {
-        return repository.findById(id).map(SponsorDto::new).get();
+        return converter.convert(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("There is no Sponsor with id: " + id)));
     }
 
     public List<SponsorDto> findAll() {
         return repository.findAllByActiveTrueOrderByName().stream().map(SponsorDto::new).collect(Collectors.toList());
     }
 
-    // todo check if exist
+    @Transactional
     public void deactivate(Long id) {
-        Sponsor byId = repository.findById(id).get();
-        byId.setActive(false);
-        repository.save(byId);
+        Sponsor sponsor = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("There is no Sponsor with id: " + id));
+        sponsor.setActive(Boolean.FALSE);
+        repository.save(sponsor);
     }
 
-    // todo check if exist
     @Transactional
     public SponsorDto update(Sponsor sponsor) {
+        repository.findById(sponsor.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("There is no Sponsor with id: " + sponsor.getId()));
         return converter.convert(repository.save(sponsor));
     }
 }
