@@ -3,6 +3,9 @@ package com.task.sponsor.converter;
 import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.dto.SponsorDto;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.stream.Collectors;
 
 @Component
 public class SponsorConverter {
@@ -20,7 +23,7 @@ public class SponsorConverter {
     }
 
     public SponsorDto convert(Sponsor sponsor) {
-        return SponsorDto.builder()
+        SponsorDto sponsorDto = SponsorDto.builder()
                 .id(sponsor.getId())
                 .name(sponsor.getName())
                 .phoneNumber(sponsor.getPhoneNumber())
@@ -29,5 +32,24 @@ public class SponsorConverter {
                 .imageId(sponsor.getImageId())
                 .websiteUrl(sponsor.getWebsiteUrl())
                 .build();
+
+        if (sponsor.getAddress() != null) {
+            sponsorDto.setAddress(sponsor.getAddress());
+        }
+
+        if (!CollectionUtils.isEmpty(sponsor.getSocialMediaLinks())) {
+            sponsorDto.setSocialMediaLinks(sponsor.getSocialMediaLinks());
+        }
+
+        if (!CollectionUtils.isEmpty(sponsor.getProductCategories())) {
+            sponsorDto.setProductCategories(sponsor.getProductCategories());
+        }
+
+        if (!CollectionUtils.isEmpty(sponsor.getSponsorContacts())) {
+            sponsorDto.setSponsorContacts(sponsor.getSponsorContacts().stream()
+                    .map(sponsorContract -> new SponsorDto(sponsor).new SponsorContactDto(sponsorContract))
+                    .collect(Collectors.toList()));
+        }
+        return sponsorDto;
     }
 }

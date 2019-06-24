@@ -10,25 +10,41 @@ import org.springframework.stereotype.Component;
 public class SponsorContactConverter {
 
     public SponsorContact convert(SponsorContactDto sponsorContactDto) {
-        return SponsorContact.builder()
-                .sponsor(convert(sponsorContactDto.getSponsor()))
-                .contact(convert(sponsorContactDto.getContact()))
+        SponsorContact sponsorContact = SponsorContact.builder()
                 .beginDate(sponsorContactDto.getBeginDate())
                 .endDate(sponsorContactDto.getEndDate())
                 .primaryContact(sponsorContactDto.getPrimaryContact())
                 .secondaryContact(sponsorContactDto.getSecondaryContact())
                 .build();
+
+        if (sponsorContact.getSponsor() != null) {
+            sponsorContact.setSponsor(sponsorContact.getSponsor());
+        }
+
+        if (sponsorContact.getContact() != null) {
+            sponsorContact.setContact(sponsorContact.getContact());
+        }
+
+        return sponsorContact;
     }
 
     public SponsorContactDto convert(SponsorContact sponsorContact) {
-        return SponsorContactDto.builder()
-                .sponsor(new SponsorContactDto().new SponsorDto(sponsorContact.getSponsor()))
-                .contact(new SponsorContactDto().new ContactDto(sponsorContact.getContact()))
+        SponsorContactDto sponsorContactDto = SponsorContactDto.builder()
                 .beginDate(sponsorContact.getBeginDate())
                 .endDate(sponsorContact.getEndDate())
                 .primaryContact(sponsorContact.getPrimaryContact())
                 .secondaryContact(sponsorContact.getSecondaryContact())
                 .build();
+
+        if (sponsorContact.getSponsor() != null) {
+            sponsorContactDto.setSponsor(new SponsorContactDto().new SponsorDto(sponsorContact.getSponsor()));
+        }
+
+        if (sponsorContact.getContact() != null) {
+            sponsorContactDto.setContact(new SponsorContactDto().new ContactDto(sponsorContact.getContact()));
+        }
+
+        return sponsorContactDto;
     }
 
     private Sponsor convert(SponsorContactDto.SponsorDto sponsorDto) {

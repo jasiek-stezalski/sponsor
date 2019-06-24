@@ -3,6 +3,9 @@ package com.task.sponsor.converter;
 import com.task.sponsor.domain.Contact;
 import com.task.sponsor.dto.ContactDto;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.stream.Collectors;
 
 @Component
 public class ContactConverter {
@@ -21,7 +24,7 @@ public class ContactConverter {
     }
 
     public ContactDto convert(Contact contact) {
-        return ContactDto.builder()
+        ContactDto contactDto = ContactDto.builder()
                 .id(contact.getId())
                 .firstName(contact.getFirstName())
                 .lastName(contact.getLastName())
@@ -31,5 +34,20 @@ public class ContactConverter {
                 .birthday(contact.getBirthday())
                 .jobTitle(contact.getJobTitle())
                 .build();
+
+        if (contact.getAddress() != null) {
+            contactDto.setAddress(contact.getAddress());
+        }
+
+        if (!CollectionUtils.isEmpty(contact.getCertificates())) {
+            contactDto.setCertificates(contact.getCertificates());
+        }
+
+        if (!CollectionUtils.isEmpty(contact.getSponsorContacts())) {
+            contactDto.setSponsorContacts(contact.getSponsorContacts().stream()
+                    .map(sponsorContract -> new ContactDto(contact).new SponsorContactDto(sponsorContract))
+                    .collect(Collectors.toList()));
+        }
+        return contactDto;
     }
 }

@@ -47,7 +47,7 @@ public class SponsorContactService {
                 .contact(contactConverter.convert(contact))
                 .beginDate(LocalDate.now())
                 .primaryContact(primary)
-                .primaryContact(secondary)
+                .secondaryContact(secondary)
                 .build();
 
         return sponsorContactConverter.convert(repository.save(sponsorContact));

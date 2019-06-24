@@ -1,7 +1,11 @@
 package com.task.sponsor.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.task.sponsor.domain.*;
+import com.task.sponsor.domain.Address;
+import com.task.sponsor.domain.Certificate;
+import com.task.sponsor.domain.Contact;
+import com.task.sponsor.domain.SponsorContact;
+import com.task.sponsor.domain.Sponsor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,26 +39,20 @@ public class ContactDto {
         this.firstName = contact.getFirstName();
         this.lastName = contact.getLastName();
         this.informalName = contact.getInformalName();
-        this.cellNumber = contact.getCellNumber();
-        this.email = contact.getEmail();
-        this.birthday = contact.getBirthday();
-        this.jobTitle = contact.getJobTitle();
-        this.address = contact.getAddress();
-        this.certificates = contact.getCertificates();
         this.sponsorContacts = contact.getSponsorContacts().stream().map(SponsorContactDto::new).collect(Collectors.toList());
     }
 
     @Data
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public class SponsorContactDto {
-        private SponsorDto sponsorDto;
+        private SponsorDto sponsor;
         private LocalDate beginDate;
         private LocalDate endDate;
         private Boolean primaryContact;
         private Boolean secondaryContact;
 
         public SponsorContactDto(SponsorContact sponsorContact) {
-            this.sponsorDto = new SponsorDto(sponsorContact.getSponsor());
+            this.sponsor = new SponsorDto(sponsorContact.getSponsor());
             this.beginDate = sponsorContact.getBeginDate();
             this.endDate = sponsorContact.getEndDate();
             this.primaryContact = sponsorContact.getPrimaryContact();
@@ -76,11 +74,6 @@ public class ContactDto {
         public SponsorDto(Sponsor sponsor) {
             this.id = sponsor.getId();
             this.name = sponsor.getName();
-            this.phoneNumber = sponsor.getPhoneNumber();
-            this.description = sponsor.getDescription();
-            this.active = sponsor.getActive();
-            this.imageId = sponsor.getImageId();
-            this.websiteUrl = sponsor.getWebsiteUrl();
         }
     }
 }
