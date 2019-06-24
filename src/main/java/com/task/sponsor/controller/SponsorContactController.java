@@ -1,6 +1,6 @@
 package com.task.sponsor.controller;
 
-import com.task.sponsor.domain.SponsorContact;
+import com.task.sponsor.dto.SponsorContactDto;
 import com.task.sponsor.service.SponsorContactService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
@@ -16,10 +16,10 @@ public class SponsorContactController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/{sponsor_id}/{contact_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/assoc/{sponsor_id}/{contact_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Associate contact")
-    public SponsorContact associateContact(@PathVariable(value = "sponsor_id") Long sponsorId, @PathVariable(value = "contact_id") Long contactId) {
-//        return service.associateContact(sponsorId, contactId);
-        return null;
+    public SponsorContactDto associateContact(@PathVariable(value = "sponsor_id") Long sponsorId, @PathVariable(value = "contact_id") Long contactId,
+                                              @RequestParam Boolean primary, @RequestParam Boolean secondary) {
+        return service.associateContact(sponsorId, contactId, primary, secondary);
     }
 }

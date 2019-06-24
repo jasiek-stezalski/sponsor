@@ -50,11 +50,15 @@ public class SponsorDto {
         private ContactDto contact;
         private LocalDate beginDate;
         private LocalDate endDate;
+        private Boolean primaryContact;
+        private Boolean secondaryContact;
 
         public SponsorContactDto(SponsorContact sponsorContact) {
             this.contact = new ContactDto(sponsorContact.getContact());
             this.beginDate = sponsorContact.getBeginDate();
             this.endDate = sponsorContact.getEndDate();
+            this.primaryContact = sponsorContact.getPrimaryContact();
+            this.secondaryContact = sponsorContact.getSecondaryContact();
         }
     }
 

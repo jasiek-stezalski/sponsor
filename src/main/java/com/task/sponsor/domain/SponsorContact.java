@@ -39,4 +39,10 @@ public class SponsorContact {
 
     @Column(name = "END_DATE")
     private LocalDate endDate;
+
+    @Column(name = "PRIMARY_CONTACT")
+    private Boolean primaryContact;
+
+    @Column(name = "SECONDARY_CONTACT")
+    private Boolean secondaryContact;
 }
