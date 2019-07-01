@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.task.sponsor.domain.Address;
 import com.task.sponsor.domain.Certificate;
 import com.task.sponsor.domain.Contact;
-import com.task.sponsor.domain.SponsorContact;
-import com.task.sponsor.domain.Sponsor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,46 +32,19 @@ public class ContactDto {
     private Set<Certificate> certificates;
     private List<SponsorContactDto> sponsorContacts;
 
-    public ContactDto(Contact contact) {
+    public ContactDto(Contact contact, boolean isSponsorContact) {
         this.id = contact.getId();
         this.firstName = contact.getFirstName();
         this.lastName = contact.getLastName();
         this.informalName = contact.getInformalName();
-        this.sponsorContacts = contact.getSponsorContacts().stream().map(SponsorContactDto::new).collect(Collectors.toList());
-    }
-
-    @Data
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public class SponsorContactDto {
-        private SponsorDto sponsor;
-        private LocalDate beginDate;
-        private LocalDate endDate;
-        private Boolean primaryContact;
-        private Boolean secondaryContact;
-
-        public SponsorContactDto(SponsorContact sponsorContact) {
-            this.sponsor = new SponsorDto(sponsorContact.getSponsor());
-            this.beginDate = sponsorContact.getBeginDate();
-            this.endDate = sponsorContact.getEndDate();
-            this.primaryContact = sponsorContact.getPrimaryContact();
-            this.secondaryContact = sponsorContact.getSecondaryContact();
-        }
-    }
-
-    @Data
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public class SponsorDto {
-        private Long id;
-        private String name;
-        private String phoneNumber;
-        private String description;
-        private Boolean active;
-        private String imageId;
-        private String websiteUrl;
-
-        public SponsorDto(Sponsor sponsor) {
-            this.id = sponsor.getId();
-            this.name = sponsor.getName();
-        }
+        this.cellNumber = contact.getCellNumber();
+        this.email = contact.getEmail();
+        this.birthday = contact.getBirthday();
+        this.jobTitle = contact.getJobTitle();
+        this.address = contact.getAddress();
+        this.certificates = contact.getCertificates();
+        this.address = contact.getAddress();
+        if (isSponsorContact)
+            this.sponsorContacts = contact.getSponsorContacts().stream().map(sp -> new SponsorContactDto(sp, true, false)).collect(Collectors.toList());
     }
 }

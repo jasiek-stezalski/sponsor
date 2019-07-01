@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -61,6 +62,7 @@ public class Sponsor {
     @JoinColumn(name = "SPONSOR_ID")
     private Set<ProductCategory> productCategories;
 
+    @BatchSize(size = 500)
     @OneToMany(mappedBy = "sponsor", cascade = CascadeType.ALL)
     private List<SponsorContact> sponsorContacts;
 }

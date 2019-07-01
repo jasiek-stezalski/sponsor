@@ -2,6 +2,7 @@ package com.task.sponsor.controller;
 
 import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.dto.SponsorDto;
+import com.task.sponsor.projection.SponsorBasicDetails;
 import com.task.sponsor.service.SponsorService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -53,7 +54,7 @@ public class SponsorController {
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all sponsors")
-    public List<SponsorDto> getAllSponsors() {
+    public List<SponsorBasicDetails> getAllSponsors() {
         return service.findAll();
     }
 

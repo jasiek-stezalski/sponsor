@@ -1,6 +1,7 @@
 package com.task.sponsor.repository;
 
 import com.task.sponsor.domain.Contact;
+import com.task.sponsor.projection.ContactBasicDetails;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,19 +39,22 @@ public class ContactRepositoryTests {
 
     @Test
     public void findAllByOrderByLastName() {
-        List<Contact> contacts = repository.findAllByOrderByLastName();
+        List<ContactBasicDetails> contacts = repository.findAllByOrderByLastName();
 
         assertEquals(3, contacts.size());
-        assertEquals(contact1, contacts.get(0));
-        assertEquals(contact2, contacts.get(1));
-        assertEquals(contact3, contacts.get(2));
+        assertEquals(contact1.getLastName(), contacts.get(0).getLastName());
+        assertEquals(contact1.getSponsorContacts(), contacts.get(0).getSponsorContacts());
+        assertEquals(contact2.getLastName(), contacts.get(1).getLastName());
+        assertEquals(contact2.getSponsorContacts(), contacts.get(1).getSponsorContacts());
+        assertEquals(contact3.getLastName(), contacts.get(2).getLastName());
+        assertEquals(contact3.getSponsorContacts(), contacts.get(2).getSponsorContacts());
     }
 
     @Test
     public void findAllByOrderByLastName_emptyTable() {
         repository.deleteAll();
 
-        List<Contact> contacts = repository.findAllByOrderByLastName();
+        List<ContactBasicDetails> contacts = repository.findAllByOrderByLastName();
 
         assertEquals(0, contacts.size());
     }

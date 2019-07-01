@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import static com.task.sponsor.common.JsonConverter.asJsonString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,7 +34,6 @@ public class ContactControllerTests {
     private Contact contact1;
     private Contact contact2;
     private ContactDto contactDto1;
-    private ContactDto contactDto2;
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,15 +45,13 @@ public class ContactControllerTests {
     public void before() {
         repository.deleteAll();
 
-        contact1 = Contact.builder().firstName("contact1").lastName("contact1").cellNumber(1).email("contact1").build();
-        contact2 = Contact.builder().firstName("contact2").lastName("contact2").cellNumber(2).email("contact2").build();
+        contact1 = Contact.builder().firstName("contact1").lastName("contact1").informalName("contact1").cellNumber(1).email("contact1").build();
+        contact2 = Contact.builder().firstName("contact2").lastName("contact2").informalName("contact2").cellNumber(2).email("contact2").build();
 
         contact1 = repository.save(contact1);
         contact2 = repository.save(contact2);
 
-        contactDto1 = ContactDto.builder().id(contact1.getId()).firstName("contact1").lastName("contact1").cellNumber(1).email("contact1").build();
-        contactDto2 = ContactDto.builder().id(contact2.getId()).firstName("contact2").lastName("contact2").cellNumber(2).email("contact2").build();
-
+        contactDto1 = ContactDto.builder().id(contact1.getId()).firstName("contact1").lastName("contact1").informalName("contact1").cellNumber(1).email("contact1").build();
     }
 
     @Test
@@ -102,13 +99,12 @@ public class ContactControllerTests {
 
 
     @Test
-    public void getAllContacts() throws Exception {
-        contactDto1 = ContactDto.builder().id(contact1.getId()).firstName("contact1").lastName("contact1").build();
-        contactDto2 = ContactDto.builder().id(contact2.getId()).firstName("contact2").lastName("contact2").build();
+    public void getAllContacts_emptyTable() throws Exception {
+        repository.deleteAll();
 
         this.mockMvc.perform(get("/contact"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(asJsonString(Arrays.asList(contactDto1, contactDto2))));
+                .andExpect(content().string(asJsonString(Collections.EMPTY_LIST)));
     }
 }

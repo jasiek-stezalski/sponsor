@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import static com.task.sponsor.common.JsonConverter.asJsonString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -36,7 +36,6 @@ public class SponsorControllerTests {
     private Sponsor sponsor2;
     private Sponsor sponsor3;
     private SponsorDto sponsorDto1;
-    private SponsorDto sponsorDto2;
 
     @Autowired
     private MockMvc mockMvc;
@@ -57,7 +56,6 @@ public class SponsorControllerTests {
         sponsor3 = repository.save(sponsor3);
 
         sponsorDto1 = SponsorDto.builder().id(sponsor1.getId()).name("sponsor1").active(Boolean.TRUE).build();
-        sponsorDto2 = SponsorDto.builder().id(sponsor2.getId()).name("sponsor2").active(Boolean.TRUE).build();
     }
 
     @Test
@@ -105,14 +103,13 @@ public class SponsorControllerTests {
     }
 
     @Test
-    public void getAllSponsors() throws Exception {
-        sponsorDto1 = SponsorDto.builder().id(sponsor1.getId()).name("sponsor1").build();
-        sponsorDto2 = SponsorDto.builder().id(sponsor2.getId()).name("sponsor2").build();
+    public void getAllSponsors_emptyTable() throws Exception {
+        repository.deleteAll();
 
         this.mockMvc.perform(get("/sponsor"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(asJsonString(Arrays.asList(sponsorDto1, sponsorDto2))));
+                .andExpect(content().string(asJsonString(Collections.EMPTY_LIST)));
     }
 
     @Test

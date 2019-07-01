@@ -1,17 +1,16 @@
 package com.task.sponsor.domain;
 
-import com.task.sponsor.common.CompositeKey;
+import com.task.sponsor.common.SponsorContactId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.EmbeddedId;
 import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
 import javax.persistence.Column;
 import java.time.LocalDate;
 
@@ -20,21 +19,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@IdClass(CompositeKey.class)
 @Table(name = "SPONSOR_CONTACT")
 public class SponsorContact {
 
-    @Id
+    @EmbeddedId
+    private SponsorContactId id;
+
     @ManyToOne
-    @JoinColumn(name = "SPONSOR_ID")
+    @MapsId("sponsorId")
     private Sponsor sponsor;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "CONTACT_ID")
+    @MapsId("contactId")
     private Contact contact;
 
-    @Column(name = "BEGIN_DATE")
+    @Column(name = "BEGIN_DATE", nullable = false)
     private LocalDate beginDate;
 
     @Column(name = "END_DATE")

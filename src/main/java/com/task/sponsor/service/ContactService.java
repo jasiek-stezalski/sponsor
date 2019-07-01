@@ -4,11 +4,11 @@ import com.task.sponsor.converter.ContactConverter;
 import com.task.sponsor.domain.Contact;
 import com.task.sponsor.dto.ContactDto;
 import com.task.sponsor.exception.ResourceNotFoundException;
+import com.task.sponsor.projection.ContactBasicDetails;
 import com.task.sponsor.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ContactService {
@@ -36,7 +36,7 @@ public class ContactService {
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Contact with id: " + id)));
     }
 
-    public List<ContactDto> findAll() {
-        return repository.findAllByOrderByLastName().stream().map(ContactDto::new).collect(Collectors.toList());
+    public List<ContactBasicDetails> findAll() {
+        return repository.findAllByOrderByLastName();
     }
 }

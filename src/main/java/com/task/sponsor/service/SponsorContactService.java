@@ -1,5 +1,6 @@
 package com.task.sponsor.service;
 
+import com.task.sponsor.common.SponsorContactId;
 import com.task.sponsor.converter.ContactConverter;
 import com.task.sponsor.converter.SponsorContactConverter;
 import com.task.sponsor.converter.SponsorConverter;
@@ -45,6 +46,7 @@ public class SponsorContactService {
         SponsorContact sponsorContact = SponsorContact.builder()
                 .sponsor(sponsorConverter.convert(sponsor))
                 .contact(contactConverter.convert(contact))
+                .id(new SponsorContactId(sponsorId, contactId))
                 .beginDate(LocalDate.now())
                 .primaryContact(primary)
                 .secondaryContact(secondary)

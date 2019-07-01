@@ -1,6 +1,7 @@
 package com.task.sponsor.repository;
 
 import com.task.sponsor.domain.Sponsor;
+import com.task.sponsor.projection.SponsorBasicDetails;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static com.task.sponsor.common.JsonConverter.asJsonString;
 import static junit.framework.TestCase.assertEquals;
 
 @DataJpaTest
@@ -38,18 +40,20 @@ public class SponsorRepositoryTests {
 
     @Test
     public void findAllByActiveTrueOrderByName() {
-        List<Sponsor> sponsors = repository.findAllByActiveTrueOrderByName();
+        List<SponsorBasicDetails> sponsors = repository.findAllByActiveTrueOrderByName();
 
         assertEquals(2, sponsors.size());
-        assertEquals(sponsor1, sponsors.get(0));
-        assertEquals(sponsor2, sponsors.get(1));
+        assertEquals(sponsor1.getName(), sponsors.get(0).getName());
+        assertEquals(sponsor1.getSponsorContacts(), sponsors.get(0).getSponsorContacts());
+        assertEquals(sponsor2.getName(), sponsors.get(1).getName());
+        assertEquals(sponsor2.getSponsorContacts(), sponsors.get(1).getSponsorContacts());
     }
 
     @Test
     public void findAllByActiveTrueOrderByName_emptyTable() {
         repository.deleteAll();
 
-        List<Sponsor> sponsors = repository.findAllByActiveTrueOrderByName();
+        List<SponsorBasicDetails> sponsors = repository.findAllByActiveTrueOrderByName();
 
         assertEquals(0, sponsors.size());
     }

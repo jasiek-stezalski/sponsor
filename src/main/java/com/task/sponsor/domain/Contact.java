@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -62,6 +63,7 @@ public class Contact {
     @JoinColumn(name = "CONTACT_ID")
     private Set<Certificate> certificates;
 
+    @BatchSize(size = 500)
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
     private List<SponsorContact> sponsorContacts;
 }

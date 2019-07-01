@@ -2,6 +2,7 @@ package com.task.sponsor.converter;
 
 import com.task.sponsor.domain.Contact;
 import com.task.sponsor.dto.ContactDto;
+import com.task.sponsor.dto.SponsorContactDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -45,7 +46,7 @@ public class ContactConverter {
 
         if (!CollectionUtils.isEmpty(contact.getSponsorContacts())) {
             contactDto.setSponsorContacts(contact.getSponsorContacts().stream()
-                    .map(sponsorContract -> new ContactDto(contact).new SponsorContactDto(sponsorContract))
+                    .map(sp -> new SponsorContactDto(sp, true, false))
                     .collect(Collectors.toList()));
         }
         return contactDto;

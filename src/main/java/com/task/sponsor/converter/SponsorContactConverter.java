@@ -1,9 +1,9 @@
 package com.task.sponsor.converter;
 
-import com.task.sponsor.domain.Contact;
-import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.domain.SponsorContact;
+import com.task.sponsor.dto.ContactDto;
 import com.task.sponsor.dto.SponsorContactDto;
+import com.task.sponsor.dto.SponsorDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,39 +37,14 @@ public class SponsorContactConverter {
                 .build();
 
         if (sponsorContact.getSponsor() != null) {
-            sponsorContactDto.setSponsor(new SponsorContactDto().new SponsorDto(sponsorContact.getSponsor()));
+            sponsorContactDto.setSponsor(new SponsorDto(sponsorContact.getSponsor(), true));
         }
 
         if (sponsorContact.getContact() != null) {
-            sponsorContactDto.setContact(new SponsorContactDto().new ContactDto(sponsorContact.getContact()));
+            sponsorContactDto.setContact(new ContactDto(sponsorContact.getContact(), true));
         }
 
         return sponsorContactDto;
-    }
-
-    private Sponsor convert(SponsorContactDto.SponsorDto sponsorDto) {
-        return Sponsor.builder()
-                .id(sponsorDto.getId())
-                .name(sponsorDto.getName())
-                .phoneNumber(sponsorDto.getPhoneNumber())
-                .description(sponsorDto.getDescription())
-                .active(sponsorDto.getActive())
-                .imageId(sponsorDto.getImageId())
-                .websiteUrl(sponsorDto.getWebsiteUrl())
-                .build();
-    }
-
-    public Contact convert(SponsorContactDto.ContactDto contactDto) {
-        return Contact.builder()
-                .id(contactDto.getId())
-                .firstName(contactDto.getFirstName())
-                .lastName(contactDto.getLastName())
-                .informalName(contactDto.getInformalName())
-                .cellNumber(contactDto.getCellNumber())
-                .email(contactDto.getEmail())
-                .birthday(contactDto.getBirthday())
-                .jobTitle(contactDto.getJobTitle())
-                .build();
     }
 
 }
