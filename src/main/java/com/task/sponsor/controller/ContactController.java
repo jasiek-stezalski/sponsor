@@ -2,7 +2,7 @@ package com.task.sponsor.controller;
 
 import com.task.sponsor.domain.Contact;
 import com.task.sponsor.dto.ContactDto;
-import com.task.sponsor.projection.ContactBasicDetails;
+import com.task.sponsor.dto.ContactSummaryDto;
 import com.task.sponsor.service.ContactService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
@@ -51,7 +51,7 @@ public class ContactController {
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get all contacts")
-    public List<ContactBasicDetails> getAllContacts() {
+    public List<ContactSummaryDto> getAllContacts() {
         return service.findAll();
     }
 }

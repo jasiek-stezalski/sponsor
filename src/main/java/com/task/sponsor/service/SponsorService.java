@@ -3,14 +3,17 @@ package com.task.sponsor.service;
 import com.task.sponsor.converter.SponsorConverter;
 import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.dto.SponsorDto;
+import com.task.sponsor.dto.SponsorSummaryDto;
 import com.task.sponsor.exception.ResourceNotFoundException;
-import com.task.sponsor.projection.SponsorBasicDetails;
+import com.task.sponsor.projection.SponsorContactBasicDetails;
 import com.task.sponsor.repository.SponsorRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SponsorService {
@@ -32,8 +35,15 @@ public class SponsorService {
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Sponsor with id: " + id)));
     }
 
-    public List<SponsorBasicDetails> findAll() {
-        return repository.findAllByActiveTrueOrderByName();
+    public List<SponsorSummaryDto> findAll() {
+        List<SponsorContactBasicDetails> basicDetails = repository.findAllByActiveTrueOrderByName();
+        LinkedHashMap<Long, List<SponsorContactBasicDetails>> sponsorBasicDetailsMap = basicDetails.stream()
+                .collect(Collectors
+                        .groupingBy(SponsorContactBasicDetails::getId, LinkedHashMap::new, Collectors.toList()));
+
+        return sponsorBasicDetailsMap.values().stream()
+                .map(converter::convert)
+                .collect(Collectors.toList());
     }
 
     @Transactional

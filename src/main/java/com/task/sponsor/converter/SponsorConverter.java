@@ -2,11 +2,14 @@ package com.task.sponsor.converter;
 
 import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.dto.SponsorContactDto;
+import com.task.sponsor.dto.SponsorContactSummaryDto;
 import com.task.sponsor.dto.SponsorDto;
-import com.task.sponsor.projection.SponsorBasicDetails;
+import com.task.sponsor.dto.SponsorSummaryDto;
+import com.task.sponsor.projection.SponsorContactBasicDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -53,5 +56,17 @@ public class SponsorConverter {
                     .collect(Collectors.toList()));
         }
         return sponsorDto;
+    }
+
+    public SponsorSummaryDto convert(List<SponsorContactBasicDetails> sponsorDetailsList) {
+        if (CollectionUtils.isEmpty(sponsorDetailsList)) {
+            return null;
+        }
+
+        return SponsorSummaryDto.builder()
+                .id(sponsorDetailsList.get(0).getId())
+                .name(sponsorDetailsList.get(0).getName())
+                .sponsorContacts(sponsorDetailsList.stream().map(sd -> new SponsorContactSummaryDto(sd, false, true)).collect(Collectors.toList()))
+                .build();
     }
 }

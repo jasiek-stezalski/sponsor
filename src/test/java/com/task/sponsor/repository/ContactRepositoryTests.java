@@ -1,7 +1,7 @@
 package com.task.sponsor.repository;
 
 import com.task.sponsor.domain.Contact;
-import com.task.sponsor.projection.ContactBasicDetails;
+import com.task.sponsor.projection.SponsorContactBasicDetails;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,22 +39,19 @@ public class ContactRepositoryTests {
 
     @Test
     public void findAllByOrderByLastName() {
-        List<ContactBasicDetails> contacts = repository.findAllByOrderByLastName();
+        List<SponsorContactBasicDetails> contacts = repository.findAllByOrderByLastName();
 
         assertEquals(3, contacts.size());
-        assertEquals(contact1.getLastName(), contacts.get(0).getLastName());
-        assertEquals(contact1.getSponsorContacts(), contacts.get(0).getSponsorContacts());
-        assertEquals(contact2.getLastName(), contacts.get(1).getLastName());
-        assertEquals(contact2.getSponsorContacts(), contacts.get(1).getSponsorContacts());
-        assertEquals(contact3.getLastName(), contacts.get(2).getLastName());
-        assertEquals(contact3.getSponsorContacts(), contacts.get(2).getSponsorContacts());
+        assertEquals(contact1.getId(), contacts.get(0).getId());
+        assertEquals(contact2.getId(), contacts.get(1).getId());
+        assertEquals(contact3.getId(), contacts.get(2).getId());
     }
 
     @Test
     public void findAllByOrderByLastName_emptyTable() {
         repository.deleteAll();
 
-        List<ContactBasicDetails> contacts = repository.findAllByOrderByLastName();
+        List<SponsorContactBasicDetails> contacts = repository.findAllByOrderByLastName();
 
         assertEquals(0, contacts.size());
     }
