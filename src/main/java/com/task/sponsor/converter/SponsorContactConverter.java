@@ -11,7 +11,6 @@ public class SponsorContactConverter {
 
     public SponsorContact convert(SponsorContactDto sponsorContactDto) {
         SponsorContact sponsorContact = SponsorContact.builder()
-                .beginDate(sponsorContactDto.getBeginDate())
                 .endDate(sponsorContactDto.getEndDate())
                 .primaryContact(sponsorContactDto.getPrimaryContact())
                 .secondaryContact(sponsorContactDto.getSecondaryContact())
@@ -30,7 +29,6 @@ public class SponsorContactConverter {
 
     public SponsorContactDto convert(SponsorContact sponsorContact) {
         SponsorContactDto sponsorContactDto = SponsorContactDto.builder()
-                .beginDate(sponsorContact.getBeginDate())
                 .endDate(sponsorContact.getEndDate())
                 .primaryContact(sponsorContact.getPrimaryContact())
                 .secondaryContact(sponsorContact.getSecondaryContact())

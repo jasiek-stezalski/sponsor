@@ -10,7 +10,7 @@ import com.task.sponsor.repository.SponsorRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +51,7 @@ public class SponsorService {
         Sponsor sponsor = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Sponsor with id: " + id));
         sponsor.setActive(Boolean.FALSE);
-        sponsor.getSponsorContacts().forEach(sponsorContact -> sponsorContact.setEndDate(LocalDate.now()));
+        sponsor.getSponsorContacts().forEach(sponsorContact -> sponsorContact.setEndDate(LocalDateTime.now()));
         repository.save(sponsor);
     }
 

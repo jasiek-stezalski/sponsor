@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,7 +45,8 @@ public class ContactDto {
         this.address = contact.getAddress();
         this.certificates = contact.getCertificates();
         this.address = contact.getAddress();
-        if (isSponsorContact)
+        if (isSponsorContact && !CollectionUtils.isEmpty(contact.getSponsorContacts())) {
             this.sponsorContacts = contact.getSponsorContacts().stream().map(sp -> new SponsorContactDto(sp, true, false)).collect(Collectors.toList());
+        }
     }
 }

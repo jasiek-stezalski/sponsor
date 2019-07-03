@@ -13,7 +13,7 @@ import com.task.sponsor.repository.SponsorContactRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class SponsorContactService {
@@ -40,14 +40,25 @@ public class SponsorContactService {
         if (primary == Boolean.TRUE && secondary == Boolean.TRUE) {
             throw new DataConflictException("Contact can not be primary and secondary at the same time");
         }
+
         SponsorDto sponsor = sponsorService.findById(sponsorId);
         ContactDto contact = contactService.findById(contactId);
+
+        // check if there is already association
+        if (repository.findByContactAndSponsorAndEndDateIsNull(contactConverter.convert(contact), sponsorConverter.convert(sponsor)) != null) {
+            throw new DataConflictException("Contact is already associated with this Sponsor");
+        }
+
+        // activate sponsor
+        if (sponsor.getActive() == Boolean.FALSE) {
+            sponsor.setActive(Boolean.TRUE);
+            sponsorService.save(sponsorConverter.convert(sponsor));
+        }
 
         SponsorContact sponsorContact = SponsorContact.builder()
                 .sponsor(sponsorConverter.convert(sponsor))
                 .contact(contactConverter.convert(contact))
-                .id(new SponsorContactId(sponsorId, contactId))
-                .beginDate(LocalDate.now())
+                .id(new SponsorContactId(sponsorId, contactId, LocalDateTime.now()))
                 .primaryContact(primary)
                 .secondaryContact(secondary)
                 .build();

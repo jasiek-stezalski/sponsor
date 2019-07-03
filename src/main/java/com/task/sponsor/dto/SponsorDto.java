@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -43,8 +44,9 @@ public class SponsorDto {
         this.address = sponsor.getAddress();
         this.socialMediaLinks = sponsor.getSocialMediaLinks();
         this.productCategories = sponsor.getProductCategories();
-        if (isSponsorContact)
+        if (isSponsorContact && !CollectionUtils.isEmpty(sponsor.getSponsorContacts())) {
             this.sponsorContacts = sponsor.getSponsorContacts().stream().map(sp -> new SponsorContactDto(sp, false, true)).collect(Collectors.toList());
+        }
     }
 }
 

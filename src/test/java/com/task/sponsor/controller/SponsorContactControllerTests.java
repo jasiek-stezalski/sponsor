@@ -18,9 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,8 +58,7 @@ public class SponsorContactControllerTests {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"sponsor\":{\"id\":" + sponsor.getId() + ",\"name\":\"sponsor\",\"active\":true},\"contact\":{\"id\":" + contact.getId() + ",\"firstName\":\"" +
-                        "contact\",\"lastName\":\"contact\",\"cellNumber\":2,\"email\":\"contact\"},\"beginDate\":\"" +
-                        LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "\",\"primaryContact\":true,\"secondaryContact\":false}"));
+                        "contact\",\"lastName\":\"contact\",\"cellNumber\":2,\"email\":\"contact\"},\"primaryContact\":true,\"secondaryContact\":false}"));
     }
 
     @Test
