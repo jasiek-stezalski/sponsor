@@ -4,11 +4,7 @@ import com.task.sponsor.material.dto.MaterialDto;
 import com.task.sponsor.material.service.MaterialService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +30,12 @@ public class MaterialController {
     @ApiOperation(value = "Get all materials")
     public List<MaterialDto> getAllMaterials() {
         return service.findAll();
+    }
+
+    @ResponseBody
+    @PutMapping(value = "/support/{material_id}/{support_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Associate contact")
+    public MaterialDto addSupportMaterial(@PathVariable(value = "material_id") Long materialId, @PathVariable(value = "support_id") Long supportId) {
+        return service.addSupportMaterial(materialId, supportId);
     }
 }
