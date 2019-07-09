@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "FILE")
+@Table(name = "FILES")
 public class File extends Material {
 
     @Column(name = "FILE_UUID")
