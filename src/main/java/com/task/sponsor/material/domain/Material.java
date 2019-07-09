@@ -39,4 +39,7 @@ public abstract class Material {
 
     @OneToMany(mappedBy = "material", fetch = FetchType.EAGER)
     private Set<Material> supportingMaterials;
+
+    @Column(name = "SPONSOR_ID")
+    private Long sponsorId;
 }

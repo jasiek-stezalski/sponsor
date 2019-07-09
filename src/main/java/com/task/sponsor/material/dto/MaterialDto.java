@@ -29,4 +29,5 @@ public abstract class MaterialDto {
     private String title;
     private MaterialDto material;
     private Set<MaterialDto> supportingMaterials;
+    private Long sponsorId;
 }

@@ -19,8 +19,8 @@ public class FileDto extends MaterialDto{
     private Set<ProductType> productTypes;
 
     @Builder
-    public FileDto(Long id, String title, MaterialDto material, Set<MaterialDto> supportingMaterials, Long fileUuid, Set<ProductType> productTypes) {
-        super(id, title, material, supportingMaterials);
+    public FileDto(Long id, String title, MaterialDto material, Set<MaterialDto> supportingMaterials, Long sponsorId, Long fileUuid, Set<ProductType> productTypes) {
+        super(id, title, material, supportingMaterials, sponsorId);
         this.fileUuid = fileUuid;
         this.productTypes = productTypes;
     }

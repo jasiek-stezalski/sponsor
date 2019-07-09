@@ -20,8 +20,8 @@ public class ConferenceCallDto extends MaterialDto {
     private String description;
 
     @Builder
-    public ConferenceCallDto(Long id, String title, MaterialDto material, Set<MaterialDto> supportingMaterials, String conferenceCallDtm, String dialInNumber, String code, String description) {
-        super(id, title, material, supportingMaterials);
+    public ConferenceCallDto(Long id, String title, MaterialDto material, Set<MaterialDto> supportingMaterials, Long sponsorId, String conferenceCallDtm, String dialInNumber, String code, String description) {
+        super(id, title, material, supportingMaterials, sponsorId);
         this.conferenceCallDtm = conferenceCallDtm;
         this.dialInNumber = dialInNumber;
         this.code = code;

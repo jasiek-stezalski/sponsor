@@ -20,6 +20,7 @@ public class WebsiteConverter {
         WebsiteDto websiteDto = WebsiteDto.builder()
                 .id(website.getId())
                 .title(website.getTitle())
+                .sponsorId(website.getSponsorId())
                 .url(website.getUrl())
                 .build();
 

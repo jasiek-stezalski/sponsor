@@ -20,6 +20,7 @@ public class ConferenceCallConverter {
         ConferenceCallDto conferenceCallDto = ConferenceCallDto.builder()
                 .id(conferenceCall.getId())
                 .title(conferenceCall.getTitle())
+                .sponsorId(conferenceCall.getSponsorId())
                 .conferenceCallDtm(conferenceCall.getConferenceCallDtm())
                 .dialInNumber(conferenceCall.getDialInNumber())
                 .code(conferenceCall.getCode())

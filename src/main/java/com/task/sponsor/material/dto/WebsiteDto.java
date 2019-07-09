@@ -17,8 +17,8 @@ public class WebsiteDto extends MaterialDto {
     private String url;
 
     @Builder
-    public WebsiteDto(Long id, String title, MaterialDto material, Set<MaterialDto> supportingMaterials, String url) {
-        super(id, title, material, supportingMaterials);
+    public WebsiteDto(Long id, String title, MaterialDto material, Set<MaterialDto> supportingMaterials, Long sponsorId, String url) {
+        super(id, title, material, supportingMaterials, sponsorId);
         this.url = url;
     }
 

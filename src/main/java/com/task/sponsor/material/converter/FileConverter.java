@@ -20,6 +20,7 @@ public class FileConverter {
         FileDto fileDto = FileDto.builder()
                 .id(file.getId())
                 .title(file.getTitle())
+                .sponsorId(file.getSponsorId())
                 .fileUuid(file.getFileUuid())
                 .build();
 
