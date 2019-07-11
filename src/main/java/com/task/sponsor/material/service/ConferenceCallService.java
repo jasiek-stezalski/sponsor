@@ -7,7 +7,6 @@ import com.task.sponsor.material.dto.ConferenceCallDto;
 import com.task.sponsor.material.repository.ConferenceCallRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,13 +31,11 @@ public class ConferenceCallService {
         return converter.convert(repository.save(conferenceCall));
     }
 
-    @Transactional
     public ConferenceCallDto findById(Long id) {
         return converter.convert(repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Conference call with id: " + id)));
     }
 
-    @Transactional
     public List<ConferenceCallDto> findAll() {
         return repository.findAll().stream().map(converter::convert).collect(Collectors.toList());
     }

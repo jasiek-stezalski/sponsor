@@ -1,7 +1,7 @@
 package com.task.sponsor.controller;
 
 import com.task.sponsor.SponsorApplication;
-import com.task.sponsor.config.H2TestConfig;
+import com.task.sponsor.config.SponsorH2TestConfig;
 import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.dto.SponsorDto;
 import com.task.sponsor.repository.SponsorRepository;
@@ -27,14 +27,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {SponsorApplication.class, H2TestConfig.class})
+@SpringBootTest(classes = {SponsorApplication.class, SponsorH2TestConfig.class})
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class SponsorControllerTests {
 
     private Sponsor sponsor1;
-    private Sponsor sponsor2;
-    private Sponsor sponsor3;
     private SponsorDto sponsorDto1;
 
     @Autowired
@@ -48,12 +46,7 @@ public class SponsorControllerTests {
         repository.deleteAll();
 
         sponsor1 = Sponsor.builder().name("sponsor1").active(Boolean.TRUE).build();
-        sponsor2 = Sponsor.builder().name("sponsor2").active(Boolean.TRUE).build();
-        sponsor3 = Sponsor.builder().name("sponsor3").active(Boolean.FALSE).build();
-
         sponsor1 = repository.save(sponsor1);
-        sponsor2 = repository.save(sponsor2);
-        sponsor3 = repository.save(sponsor3);
 
         sponsorDto1 = SponsorDto.builder().id(sponsor1.getId()).name("sponsor1").active(Boolean.TRUE).build();
     }

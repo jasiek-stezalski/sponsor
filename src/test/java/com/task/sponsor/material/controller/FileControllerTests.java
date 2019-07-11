@@ -1,10 +1,10 @@
-package com.task.sponsor.controller;
+package com.task.sponsor.material.controller;
 
 import com.task.sponsor.SponsorApplication;
-import com.task.sponsor.config.SponsorH2TestConfig;
-import com.task.sponsor.domain.Contact;
-import com.task.sponsor.dto.ContactDto;
-import com.task.sponsor.repository.ContactRepository;
+import com.task.sponsor.config.MaterialH2TestConfig;
+import com.task.sponsor.material.domain.File;
+import com.task.sponsor.material.dto.FileDto;
+import com.task.sponsor.material.repository.FileRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,81 +26,82 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {SponsorApplication.class, SponsorH2TestConfig.class})
+@SpringBootTest(classes = {SponsorApplication.class, MaterialH2TestConfig.class})
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class ContactControllerTests {
+public class FileControllerTests {
 
-    private Contact contact1;
-    private ContactDto contactDto1;
+    private File file;
+    private FileDto fileDto;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private ContactRepository repository;
+    private FileRepository repository;
 
     @Before
     public void before() {
         repository.deleteAll();
 
-        contact1 = Contact.builder().firstName("contact1").lastName("contact1").informalName("contact1").cellNumber(1).email("contact1").build();
-        contact1 = repository.save(contact1);
+        file = File.builder().fileUuid(1L).build();
+        file = repository.save(file);
 
-        contactDto1 = ContactDto.builder().id(contact1.getId()).firstName("contact1").lastName("contact1").informalName("contact1").cellNumber(1).email("contact1").build();
+        fileDto = FileDto.builder().fileUuid(1L).id(file.getId()).build();
     }
 
     @Test
-    public void createContact() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/contact")
+    public void createFile() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/material/file")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(contact1)))
+                .content(asJsonString(file)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(asJsonString(contactDto1)));
+                .andExpect(content().string(asJsonString(fileDto)));
     }
 
+
     @Test
-    public void updateContact() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/contact")
+    public void updateFile() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/material/file")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(contact1)))
+                .content(asJsonString(file)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(asJsonString(contactDto1)));
+                .andExpect(content().string(asJsonString(fileDto)));
     }
 
     @Test
-    public void updateContact_wrongId() throws Exception {
-        contact1.setId(-1L);
+    public void updateFile_wrongId() throws Exception {
+        file.setId(-1L);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/contact")
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/material/file")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(contact1)))
+                .content(asJsonString(file)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void getContactById() throws Exception {
-        this.mockMvc.perform(get("/contact/{id}", contact1.getId()))
+    public void getFileById() throws Exception {
+        this.mockMvc.perform(get("/material/file/{id}", file.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(asJsonString(contactDto1)));
+                .andExpect(content().string(asJsonString(fileDto)));
     }
 
     @Test
-    public void getContactById_wrongId() throws Exception {
-        this.mockMvc.perform(get("/contact/{id}", -1L))
+    public void getFileById_wrongId() throws Exception {
+        this.mockMvc.perform(get("/material/file/{id}", -1L))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
-
     @Test
-    public void getAllContacts_emptyTable() throws Exception {
+    public void getAllFiles_emptyTable() throws Exception {
         repository.deleteAll();
 
-        this.mockMvc.perform(get("/contact"))
+        this.mockMvc.perform(get("/material/file"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(asJsonString(Collections.EMPTY_LIST)));
     }
+
 }

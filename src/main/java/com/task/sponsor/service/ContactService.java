@@ -9,6 +9,7 @@ import com.task.sponsor.projection.SponsorContactBasicDetails;
 import com.task.sponsor.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ public class ContactService {
         return converter.convert(repository.save(contact));
     }
 
+    @Transactional
     public ContactDto update(Contact contact) {
         repository.findById(contact.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Sponsor with id: " + contact.getId()));

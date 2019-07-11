@@ -7,7 +7,6 @@ import com.task.sponsor.material.dto.FileDto;
 import com.task.sponsor.material.repository.FileRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,6 @@ public class FileService {
                 .orElseThrow(() -> new ResourceNotFoundException("There is no File call with id: " + id)));
     }
 
-    @Transactional
     public List<FileDto> findAll() {
         return repository.findAll().stream().map(converter::convert).collect(Collectors.toList());
     }

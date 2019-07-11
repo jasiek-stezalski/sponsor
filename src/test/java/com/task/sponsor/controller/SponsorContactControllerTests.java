@@ -1,7 +1,7 @@
 package com.task.sponsor.controller;
 
 import com.task.sponsor.SponsorApplication;
-import com.task.sponsor.config.H2TestConfig;
+import com.task.sponsor.config.SponsorH2TestConfig;
 import com.task.sponsor.domain.Contact;
 import com.task.sponsor.domain.Sponsor;
 import com.task.sponsor.repository.ContactRepository;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {SponsorApplication.class, H2TestConfig.class})
+@SpringBootTest(classes = {SponsorApplication.class, SponsorH2TestConfig.class})
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class SponsorContactControllerTests {

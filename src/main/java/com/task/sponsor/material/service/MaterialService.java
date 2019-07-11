@@ -29,6 +29,7 @@ public class MaterialService {
         return converter.convert(repository.save(material));
     }
 
+    @Transactional
     public MaterialDto update(Material material) {
         repository.findById(material.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Material with id: " + material.getId()));
@@ -46,7 +47,7 @@ public class MaterialService {
         return repository.findAll().stream().map(converter::convert).collect(Collectors.toList());
     }
 
-    @Transactional
+//    @Transactional
     public MaterialDto addSupportMaterial(Long materialId, Long supportId) {
         Material material = repository.findById(materialId)
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Material with id: " + materialId));

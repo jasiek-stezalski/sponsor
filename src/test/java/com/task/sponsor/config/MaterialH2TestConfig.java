@@ -1,13 +1,13 @@
 package com.task.sponsor.config;
 
-import com.task.sponsor.domain.Sponsor;
+import com.task.sponsor.material.domain.Material;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -26,37 +26,38 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Configuration
+@Profile("test")
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "sponsorEntityManager",
-        transactionManagerRef = "sponsorTransactionManager",
-        basePackages = "com.task.sponsor.repository"
+        entityManagerFactoryRef = "materialEntityManager",
+        transactionManagerRef = "materialTransactionManager",
+        basePackages = "com.task.sponsor.material.repository"
 )
-public class SponsorConfig {
+public class MaterialH2TestConfig {
 
-    @Primary
     @Bean
-    @ConfigurationProperties(prefix = "spring.sponsor.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder
                 .create()
+                .url("jdbc:h2:mem:material;DB_CLOSE_DELAY=-1")
+                .password("sa")
+                .username("sa")
+                .driverClassName("org.h2.Driver")
                 .build();
     }
 
-    @Primary
-    @Bean(name = "sponsorEntityManager")
+    @Bean(name = "materialEntityManager")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(dataSource())
                 .properties(hibernateProperties())
-                .packages(Sponsor.class)
-                .persistenceUnit("sponsorPU")
+                .packages(Material.class)
+                .persistenceUnit("materialPU")
                 .build();
     }
 
-    @Primary
-    @Bean(name = "sponsorTransactionManager")
-    public PlatformTransactionManager transactionManager(@Qualifier("sponsorEntityManager") EntityManagerFactory entityManagerFactory) {
+    @Bean(name = "materialTransactionManager")
+    public PlatformTransactionManager transactionManager(@Qualifier("materialEntityManager") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 

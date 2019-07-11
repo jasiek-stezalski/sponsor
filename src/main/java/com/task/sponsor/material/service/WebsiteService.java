@@ -7,7 +7,6 @@ import com.task.sponsor.material.dto.WebsiteDto;
 import com.task.sponsor.material.repository.WebsiteRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,13 +31,11 @@ public class WebsiteService {
         return converter.convert(repository.save(website));
     }
 
-    @Transactional
     public WebsiteDto findById(Long id) {
         return converter.convert(repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Website with id: " + id)));
     }
 
-    @Transactional
     public List<WebsiteDto> findAll() {
         return repository.findAll().stream().map(converter::convert).collect(Collectors.toList());
     }
